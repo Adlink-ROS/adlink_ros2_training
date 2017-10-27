@@ -36,12 +36,17 @@ ament_target_dependencies(pose_subscriber rclcpp geometry_msgs)
 add_executable(transform_sub src/transform_sub.cpp)
 ament_target_dependencies(transform_sub rclcpp geometry_msgs)
 
+# pose_array_pub
+add_executable(pose_array_pub src/pose_array_pub.cpp)
+ament_target_dependencies(pose_array_pub rclcpp geometry_msgs)
+
 install(TARGETS
   adlink_talker
   adlink_talker_qos
   nonstop_demo
   pose_subscriber
   transform_sub
+  pose_array_pub
   DESTINATION lib/${PROJECT_NAME}
 )
 

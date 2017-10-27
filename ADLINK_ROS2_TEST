@@ -1,0 +1,24 @@
+Copyright 2017 ADLINK Technology, Inc.
+Developer: HaoChih, LIN (haochih.lin@adlinktech.com)
+
+=== ROS 2 Compile ===
+$ cd ~/ros2_ws
+$ ament build
+OR
+$ ament build --only-packages adlink_ros2
+
+== ROS 2&1 Bridge ===
+#Method-1 (rosparam)
+$ roscore
+$ rosparam set /topics "[{'topic':neonj_poses, 'type':geometry_msgs/PoseArray}]" 
+$ ros2 run ros1_bridge parameter_bridge
+$ ros2 run adlink_ros2 pose_array_pub
+$ rostopic list 
+(now you can echo "/neonj_poses", like: $ rostopic echo /neonj_poses)
+
+#Method-2 (roslaunch)
+$ roslaunch adlink_test PoseArray_Test.launch 
+$ ros2 run ros1_bridge parameter_bridge
+$ ros2 run adlink_ros2 pose_array_pub
+$ rostopic list 
+$ rostopic echo /neonj_poses
