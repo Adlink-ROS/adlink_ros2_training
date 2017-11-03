@@ -40,6 +40,14 @@ ament_target_dependencies(transform_sub rclcpp geometry_msgs)
 add_executable(pose_array_pub src/pose_array_pub.cpp)
 ament_target_dependencies(pose_array_pub rclcpp geometry_msgs)
 
+# RoadTrip_ping
+add_executable(RoundTrip_ping src/RoundTrip_ping.cpp)
+ament_target_dependencies(RoundTrip_ping rclcpp std_msgs)
+
+# RoadTrip_ping
+add_executable(RoundTrip_pong src/RoundTrip_pong.cpp)
+ament_target_dependencies(RoundTrip_pong rclcpp std_msgs)
+
 install(TARGETS
   adlink_talker
   adlink_talker_qos
@@ -47,6 +55,8 @@ install(TARGETS
   pose_subscriber
   transform_sub
   pose_array_pub
+  RoundTrip_ping
+  RoundTrip_pong
   DESTINATION lib/${PROJECT_NAME}
 )
 
