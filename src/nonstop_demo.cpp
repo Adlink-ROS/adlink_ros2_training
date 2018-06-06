@@ -16,7 +16,9 @@
 #include <unistd.h>
 #include <iostream>
 #include <string>
+#include "rclcpp/clock.hpp"
 #include "rclcpp/rclcpp.hpp"
+#include "rclcpp/time_source.hpp"
 #include "geometry_msgs/msg/transform_stamped.hpp"
 
 using std::placeholders::_1;
@@ -24,6 +26,17 @@ using namespace std::chrono_literals;
 
 class NonStopDemo : public rclcpp::Node
 {
+    private:
+        rclcpp::Subscription<geometry_msgs::msg::TransformStamped>::SharedPtr subscriper_;
+        rclcpp::Publisher<geometry_msgs::msg::TransformStamped>::SharedPtr publisher_;
+        rclcpp::TimerBase::SharedPtr timer_;
+
+        std::vector<double> robot1_goalx_, robot1_goaly_, robot2_goalx_, robot2_goaly_;
+        std::string robot1_ID_, robot2_ID_, map_ID_;
+        int robot1_goalID_, robot2_goalID_;
+        bool robot1_reached_, robot2_reached_;
+        double goal_radius_;
+
     public:
         NonStopDemo() : Node("nonstop_demo")
         {
@@ -50,24 +63,19 @@ class NonStopDemo : public rclcpp::Node
 
             this->goal_radius_ = 0.25; // unit: meter
             map_ID_ = "map";
+
         }
-
-    private:
-        rclcpp::Subscription<geometry_msgs::msg::TransformStamped>::SharedPtr subscriper_;
-        rclcpp::Publisher<geometry_msgs::msg::TransformStamped>::SharedPtr publisher_;
-        rclcpp::TimerBase::SharedPtr timer_;
-
-        std::vector<double> robot1_goalx_, robot1_goaly_, robot2_goalx_, robot2_goaly_;
-        std::string robot1_ID_, robot2_ID_, map_ID_;
-        int robot1_goalID_, robot2_goalID_;
-        bool robot1_reached_, robot2_reached_;
-        double goal_radius_;
 
         void sendGoal(const std::string &robotID, const double &goal_x, const double &goal_y)
         {
             auto msg_out = geometry_msgs::msg::TransformStamped();
             msg_out.header.frame_id = map_ID_;
-            msg_out.header.stamp = rclcpp::Time::now();
+
+            //ROS Time
+            
+            //rclcpp::Clock::SharedPtr clock = std::make_shared<rclcpp::Clock>(RCL_ROS_TIME);
+            //rclcpp::Clock clock(RCL_ROS_TIME);
+            msg_out.header.stamp = rclcpp::Clock(RCL_ROS_TIME).now();
             msg_out.child_frame_id = robotID;
             msg_out.transform.translation.x = goal_x;
             msg_out.transform.translation.y = goal_y;

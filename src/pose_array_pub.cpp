@@ -29,7 +29,7 @@ class PoseArrayPub : public rclcpp::Node
         void timer_callback()
         {
             auto message = geometry_msgs::msg::PoseArray();
-            message.header.stamp = rclcpp::Time::now();
+            message.header.stamp = rclcpp::Clock(RCL_ROS_TIME).now();
             message.header.frame_id = "neonj_link";
             message.poses.resize(1);
             

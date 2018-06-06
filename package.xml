@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
     <name>adlink_ros2_training</name>
-    <version>0.0.2</version>
+    <version>0.4.0</version>
     <description>ROS2 Demo Nodes for ADLINK Trainning</description>
     <maintainer email="haochih.lin@adlinktech.com">HaoChih, LIN</maintainer>
     <license>Apache License 2.0</license>
