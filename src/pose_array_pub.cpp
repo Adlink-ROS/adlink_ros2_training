@@ -17,6 +17,7 @@
 #include "geometry_msgs/msg/pose_array.hpp"
 #include "geometry_msgs/msg/pose.hpp"
 
+// for timer
 using namespace std::chrono_literals;
 
 class PoseArrayPub : public rclcpp::Node
@@ -25,34 +26,43 @@ class PoseArrayPub : public rclcpp::Node
         rclcpp::TimerBase::SharedPtr timer_;
         rclcpp::Publisher<geometry_msgs::msg::PoseArray>::SharedPtr publisher_;
         size_t count_;
+        void timer_callback();
+        double param_;
 
-        void timer_callback()
-        {
-            auto message = geometry_msgs::msg::PoseArray();
-            message.header.stamp = rclcpp::Clock(RCL_ROS_TIME).now();
-            message.header.frame_id = "neonj_link";
-            message.poses.resize(1);
-            
-            message.poses[0].position.x = 1.0;
-            message.poses[0].position.y = 2.0;
-            message.poses[0].position.z = 3.0;
-            message.poses[0].orientation.w = 1.0;
-
-            publisher_->publish(message);
-            count_ = count_ + 1;
-
-            //Debug Info
-            std::cout << "Publishing PoseArray!, topic: " << message.header.frame_id << ", size: " << message.poses.size() << ", seq: " << count_ << std::endl;
-        }
         
     public:
-        PoseArrayPub(): Node("pose_array_pub")
-        {
-            publisher_ = this->create_publisher<geometry_msgs::msg::PoseArray>("/neonj_poses", rmw_qos_profile_sensor_data); //qos profit: sensor
-            timer_ = this->create_wall_timer(100ms, std::bind(&PoseArrayPub::timer_callback, this)); // 10Hz (100ms)
-            count_ = 0;
-        }
+        PoseArrayPub();
 };
+
+
+PoseArrayPub::PoseArrayPub() : Node("pose_array_pub")
+{
+    publisher_ = this->create_publisher<geometry_msgs::msg::PoseArray>("/neonj_poses", rmw_qos_profile_sensor_data); //qos profit: sensor
+    timer_ = this->create_wall_timer(100ms, std::bind(&PoseArrayPub::timer_callback, this)); // 10Hz (100ms)
+    count_ = 0;
+    this->get_parameter_or("param_", param_, -1.0);
+    //Debug Info
+    std::cout << "param: " << param_ << std::endl;
+}
+
+void PoseArrayPub::timer_callback()
+{
+    auto message = geometry_msgs::msg::PoseArray();
+    message.header.stamp = rclcpp::Clock(RCL_ROS_TIME).now();
+    message.header.frame_id = "neonj_link";
+    message.poses.resize(1);
+    
+    message.poses[0].position.x = 1.0;
+    message.poses[0].position.y = 2.0;
+    message.poses[0].position.z = 3.0;
+    message.poses[0].orientation.w = 1.0;
+
+    publisher_->publish(message);
+    count_ = count_ + 1;
+
+    //Debug Info
+    std::cout << "Publishing PoseArray!, topic: " << message.header.frame_id << ", size: " << message.poses.size() << ", seq: " << count_ << std::endl;
+}
 
 
 int main(int argc, char * argv[])
