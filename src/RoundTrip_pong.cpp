@@ -34,7 +34,7 @@ private:
     void topic_callback(const std_msgs::msg::String::SharedPtr msg)
     {
         publisher_->publish(msg);
-        std::cout << "I heard: " << msg->data.c_str() << ", Id: " << count_ << std::endl; //debug
+        //std::cout << "I heard: " << msg->data.c_str() << ", Id: " << count_ << std::endl; //debug
         count_ ++;
     }
 
