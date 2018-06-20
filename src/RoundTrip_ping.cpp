@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <memory>
+#include <iomanip>      // std::setw
 #include <string>
 #include <chrono>
 
@@ -78,9 +79,9 @@ class RoundTripPING : public rclcpp::Node
                 sub_count_ = 0;
                 return;
             }
-            std::cout <<  duration<double>(postWriteTime-preWriteTime).count()*1000 << ","
-                      <<  duration<double>(postReadTime-postWriteTime).count()*1000 << ","
-                      <<  duration<double>(postReadTime-preWriteTime).count()*1000 << std::endl;
+            std::cout << std::setw(11) << duration<double>(postWriteTime-preWriteTime).count()*1000.0
+                      << std::setw(11) << duration<double>(postReadTime-postWriteTime).count()*1000.0 
+                      << std::setw(11) << duration<double>(postReadTime-preWriteTime).count()*1000.0 << std::endl;
                 
             sub_count_++;
         }
@@ -120,8 +121,8 @@ int main(int argc, char * argv[])
     if (rcutils_cli_option_exist(argv, argv + argc, "-p"))
     {
         payload = atoi(rcutils_cli_get_option(argv, argv + argc, "-p"));
-        if (payload > 1000)
-            payload = 1000;
+        if (payload > 64*1024)
+            payload = 64*1024;
         if (payload <= 1)
             payload = 1;
     }
