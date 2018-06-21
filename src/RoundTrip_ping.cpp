@@ -153,7 +153,7 @@ class RoundTripPING : public rclcpp::Node
             sub_count_++;          
             if( pub_count_!= sub_count_ )
             {
-                std::cout << "Losing data!  pubId: " << pub_count_-1 << ", subId: " << sub_count_ << std::endl;
+                std::cout << "Losing data!  pubId: " << pub_count_ << ", subId: " << sub_count_ << std::endl;
                 sub_count_ = pub_count_;
                 return;
             }
