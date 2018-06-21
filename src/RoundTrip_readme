@@ -1,0 +1,8 @@
+Terminal 1:
+$ export RMW_IMPLEMENTATION=rmw_opensplice_cpp
+$ RCL_ASSERT_RMW_ID_MATCHES=rmw_opensplice_cpp ros2 run adlink_ros2_training RoundTrip_pong 
+
+Terminal 2:
+$ ros2 run adlink_ros2_training RoundTrip_ping -h
+$ export RMW_IMPLEMENTATION=rmw_opensplice_cpp
+$ RCL_ASSERT_RMW_ID_MATCHES=rmw_opensplice_cpp ros2 run adlink_ros2_training RoundTrip_ping -t 10 -p 1024
