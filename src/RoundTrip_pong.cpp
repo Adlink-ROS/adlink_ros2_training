@@ -25,9 +25,9 @@ class RoundTripPONG : public rclcpp::Node
     public:
     RoundTripPONG() : Node("roundtrip_pong"), count_(0)
     {
-        publisher_ = this->create_publisher<std_msgs::msg::String>("roadtrip_pong", rmw_qos_profile_sensor_data); //topic, QoS
+        publisher_ = this->create_publisher<std_msgs::msg::String>("roadtrip_pong", rmw_qos_profile_parameters); //topic, QoS
         subscription_ = this->create_subscription<std_msgs::msg::String>("roadtrip_ping", 
-                        std::bind(&RoundTripPONG::topic_callback, this, _1), rmw_qos_profile_sensor_data);
+                        std::bind(&RoundTripPONG::topic_callback, this, _1), rmw_qos_profile_parameters);
     }
 
 private:
