@@ -1,4 +1,4 @@
-# ADLINK ROS 2.0 Training Material  
+# ADLINK ROS 2 Training Material  
   
 ## Developers  
 * HaoChih, LIN (haochih.lin@adlinktech.com)  
